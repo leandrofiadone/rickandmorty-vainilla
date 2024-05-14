@@ -5,17 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rick and Morty SPA</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="filters.css">
 </head>
 <body>
     <nav class="sticky-nav">
-        <div class="text-navbar"><h1>Rick and Morty SPA</h1> <h2>para Absti SA</h2></div>   
-        
+        <div class="text-navbar">
+            <h1>Rick and Morty SPA</h1>
+            <h2>para Absti SA</h2>
+        </div>
+         <div class="filters">
+            <label for="status">Status:</label>
+            <select id="status">
+                <option value="">All</option>
+                <option value="Alive">Alive</option>
+                <option value="Dead">Dead</option>
+                <option value="unknown">Unknown</option>
+            </select>
+            <label for="species">Species:</label>
+            <select id="species">
+                <option value="">All</option>
+                <option value="Human">Human</option>
+                <option value="Alien">Alien</option>
+                <option value="Robot">Robot</option>
+                <!-- Add more options as needed -->
+            </select>
+            <label for="gender">Gender:</label>
+            <select id="gender">
+                <option value="">All</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Genderless">Genderless</option>
+                <option value="unknown">Unknown</option>
+            </select>
+            <button id="apply-filters">Apply Filters</button>
+        </div>
     </nav>
+   
     <main id="main-content">
         <!-- Content generated dynamically by JavaScript -->
     </main>
 
-    <!-- <script src="helpers.js" defer></script> -->
+    <!-- Scripts -->
+
     <script src="script.js" defer></script>
+    
+
 </body>
 </html>

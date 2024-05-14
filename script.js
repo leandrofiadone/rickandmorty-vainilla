@@ -1,143 +1,135 @@
-document.addEventListener("DOMContentLoaded", async function () {
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+
+  const detailSound = new Audio("./pop.mp3")
   const baseUrl = "https://rickandmortyapi.com/api/"
-  let modalOpen = false // Variable to track if modal is open
+  let modalOpen = false
   let page = 1
-  const totalPages = 42 // Total pages according to the API documentation
+  const totalPages = 42
   let characters = []
+  let selectedStatus = ""
+  let selectedSpecies = ""
+  let selectedGender = ""
 
-  function fetchData(url) {
-    return fetch(url)
-      .then((response) => response.json())
-      .catch((error) => console.error("Error fetching data:", error))
-  }
-
-  function displayCharacters(characters) {
-    const mainContent = document.getElementById("main-content")
-
-    characters.forEach((character) => {
-      const characterCard = document.createElement("div")
-      characterCard.classList.add("character-card")
-
-      const characterImage = document.createElement("img")
-      characterImage.src = character.image
-
-      const characterName = document.createElement("h2")
-      characterName.textContent = character.name
-
-      // Add click event listener to open modal
-      characterCard.addEventListener("click", () => {
-        if (!modalOpen) {
-          displayCharacterDetails(character)
-        } else {
-          closeModal() // Close currently open modal
-          displayCharacterDetails(character)
-        }
-      })
-
-      characterCard.appendChild(characterImage)
-      characterCard.appendChild(characterName)
-
-      mainContent.appendChild(characterCard)
-
-      
-    })
-
-    
-  }
-
-  
-
-  function displayCharacterDetails(character) {
-    // Create modal card content
-    const modalCard = document.createElement("div")
-    modalCard.classList.add("modal-card")
-
-    const characterImage = document.createElement("img")
-    characterImage.src = character.image
-
-    const textContainer = document.createElement("div")
-    textContainer.classList.add("text-container")
-
-    const characterName = document.createElement("h2")
-    characterName.textContent = character.name
-
-    textContainer.appendChild(characterName)
-
-    const status = document.createElement("p")
-    status.textContent = "Status: " + character.status
-
-    const species = document.createElement("p")
-    species.textContent = "Species: " + character.species
-
-    const gender = document.createElement("p")
-    gender.textContent = "Gender: " + character.gender
-
-    const origin = document.createElement("p")
-    origin.textContent = "Origin: " + character.origin.name
-
-    const location = document.createElement("p")
-    location.textContent = "Location: " + character.location.name
-
-    // Close button
-    const closeButton = document.createElement("button")
-    closeButton.textContent = "✕"
-    closeButton.classList.add("close-button")
-    closeButton.addEventListener("click", () => {
-      closeModal()
-    })
-
-    modalCard.appendChild(closeButton)
-    modalCard.appendChild(characterImage)
-    textContainer.appendChild(status)
-    textContainer.appendChild(species)
-    textContainer.appendChild(gender)
-    textContainer.appendChild(origin)
-    textContainer.appendChild(location)
-    modalCard.appendChild(textContainer)
-
-    // Append modal card to body
-    document.body.appendChild(modalCard)
-
-    modalOpen = true // Set modalOpen to true
-  }
-
-  function closeModal() {
-    const modal = document.querySelector(".modal-card")
-    if (modal) {
-      modal.parentNode.removeChild(modal)
-      modalOpen = false // Set modalOpen to false
+  const fetchData = async (url) => {
+    try {
+      const response = await fetch(url)
+      return await response.json()
+    } catch (error) {
+      console.error("Error fetching data:", error)
     }
   }
 
-  async function loadMoreCharacters() {
-    if (page <= totalPages) {
-      const charactersUrl = baseUrl + "character?page=" + page
-      const data = await fetchData(charactersUrl)
+  const displayCharacters = (characters) => {
+    const mainContent = document.getElementById("main-content")
+    characters.forEach((character) => {
+      const characterCard = document.createElement("div")
+      characterCard.className = "character-card"
+      characterCard.innerHTML = `
+        <img src="${character.image}">
+        <h2>${character.name}</h2>
+      `
+      characterCard.addEventListener("click", () => {
+        !modalOpen
+          ? displayCharacterDetails(character)
+          : (closeModal(), displayCharacterDetails(character))
+      })
+      mainContent.appendChild(characterCard)
+    })
+  }
 
-      if (data.results.length > 0) {
-        characters = characters.concat(data.results)
-        displayCharacters(data.results)
+const displayCharacterDetails = (character) => {
+  const modalCard = document.createElement("div")
+  modalCard.className = "modal-card"
+  modalCard.innerHTML = `
+    <button class="close-button">✕</button>
+    <img src="${character.image}">
+    <div class="text-container">
+      <h2>${character.name}</h2>
+      <p>Status: ${character.status}</p>
+      <p>Species: ${character.species}</p>
+      <p>Gender: ${character.gender}</p>
+      <p>Origin: ${character.origin.name}</p>
+      <p>Location: ${character.location.name}</p>
+    </div>
+  `
+  modalCard
+    .querySelector(".close-button")
+    .addEventListener("click", () => closeModal())
+  document.body.appendChild(modalCard)
+  modalOpen = true
+
+  // Reproducir el sonido cuando se abre el modal
+  detailSound.play()
+}
+  const closeModal = () => {
+    const modal = document.querySelector(".modal-card")
+    modal && (modal.parentNode.removeChild(modal), (modalOpen = false))
+  }
+
+  // Function to build the API URL with filters
+  const buildApiUrlWithFilters = () => {
+    let url = `${baseUrl}character/?page=${page}`
+    if (selectedStatus) url += `&status=${selectedStatus}`
+    if (selectedSpecies) url += `&species=${selectedSpecies}`
+    if (selectedGender) url += `&gender=${selectedGender}`
+    return url
+  }
+
+  // Update the loadMoreCharacters function to use the new URL builder
+  const loadMoreCharacters = async () => {
+    if (page <= totalPages) {
+      const urlWithFilters = buildApiUrlWithFilters()
+      const {results} = await fetchData(urlWithFilters)
+      if (results.length > 0) {
+        characters.push(...results)
+        displayCharacters(results)
         page++
       }
     }
   }
 
-  // Load initial characters when the page is loaded
-  const charactersUrl = baseUrl + "character?page=" + page
-  const data = await fetchData(charactersUrl)
+    document.getElementById("status").addEventListener("change", (event) => {
+      selectedStatus = event.target.value
+      page = 1
+      characters = []
+      document.getElementById("main-content").innerHTML = ""
+      loadMoreCharacters()
+    })
 
-  if (data.results.length > 0) {
-    characters = data.results
-    displayCharacters(characters)
-    page++
+    document.getElementById("species").addEventListener("change", (event) => {
+      selectedSpecies = event.target.value
+      page = 1
+      characters = []
+      document.getElementById("main-content").innerHTML = ""
+      loadMoreCharacters()
+    })
+
+    document.getElementById("gender").addEventListener("change", (event) => {
+      selectedGender = event.target.value
+      page = 1
+      characters = []
+      document.getElementById("main-content").innerHTML = ""
+      loadMoreCharacters()
+    })
+
+  const initializePage = async () => {
+    const {results} = await fetchData(`${baseUrl}character?page=${page}`)
+    if (results.length > 0) {
+      characters = results
+      displayCharacters(results)
+      page++
+    }
   }
 
-  // Add event listener for scroll
-  window.addEventListener("scroll", () => {
-    const {scrollTop, scrollHeight, clientHeight} = document.documentElement
+  initializePage()
 
+  window.addEventListener("scroll", async () => {
+    const {scrollTop, scrollHeight, clientHeight} = document.documentElement
     if (scrollTop + clientHeight >= scrollHeight - 5 && !modalOpen) {
-      loadMoreCharacters()
+      await loadMoreCharacters()
     }
   })
 })
