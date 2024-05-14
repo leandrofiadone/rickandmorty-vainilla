@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const detailSound = new Audio("./pop.mp3")
   const hoverSound = new Audio("./Click_Electronic_10.mp3")
+  const closeSound = new Audio("./Mouth_42.mp3")
   const baseUrl = "https://rickandmortyapi.com/api/"
   let modalOpen = false
   let page = 1
@@ -69,8 +70,10 @@ const displayCharacterDetails = (character) => {
   detailSound.play()
 }
   const closeModal = () => {
+    closeSound.play()
     const modal = document.querySelector(".modal-card")
     modal && (modal.parentNode.removeChild(modal), (modalOpen = false))
+   
   }
 
   // Function to build the API URL with filters
