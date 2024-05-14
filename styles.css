@@ -23,6 +23,8 @@ body {
 
 h1 {
     margin: 0;
+
+
 }
 
 #main-content {
@@ -150,20 +152,23 @@ h1 {
 .sticky-nav {
     position: sticky;
     top: 0;
-    background-color: #333; /* Example color, adjust as needed */
     color: #fff; /* Example text color, adjust as needed */
     padding: 15px 40px; /* Example padding, adjust as needed */
     z-index: 1000; /* Ensure it stays on top of other content */
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+  background-image: repeating-linear-gradient(45deg, rgba(97,97,97,0.1) 0px, rgba(97,97,97,0.1) 2px,transparent 2px, transparent 4px),linear-gradient(90deg, rgb(43,43,43),rgb(43,43,43));
 }
 
 
 .text-navbar {
   display: flex;
-  justify-content: space-between; /* Para alinear los elementos horizontalmente */
+  /* Para alinear los elementos horizontalmente */
   align-items: center; /* Para alinear los elementos verticalmente */
   font-size: larger;
   margin-right: 6rem;
   margin-left: 4rem;
+  gap: 1rem;
 
 }
 
@@ -188,7 +193,7 @@ h1 {
     }
 
     .sticky-nav {
-
+ background-image: repeating-linear-gradient(135deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 2px,transparent 2px, transparent 4px),linear-gradient(45deg, rgb(18, 105, 233),rgb(166, 255, 155));
     padding: 5px 5px; /* Example padding, adjust as needed */
     
 }

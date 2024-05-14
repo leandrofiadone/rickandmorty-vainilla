@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
   const detailSound = new Audio("./pop.mp3")
+  const hoverSound = new Audio("./Click_Electronic_10.mp3")
   const baseUrl = "https://rickandmortyapi.com/api/"
   let modalOpen = false
   let page = 1
@@ -22,23 +23,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  const displayCharacters = (characters) => {
-    const mainContent = document.getElementById("main-content")
-    characters.forEach((character) => {
-      const characterCard = document.createElement("div")
-      characterCard.className = "character-card"
-      characterCard.innerHTML = `
-        <img src="${character.image}">
-        <h2>${character.name}</h2>
-      `
-      characterCard.addEventListener("click", () => {
-        !modalOpen
-          ? displayCharacterDetails(character)
-          : (closeModal(), displayCharacterDetails(character))
-      })
-      mainContent.appendChild(characterCard)
+const displayCharacters = (characters) => {
+  const mainContent = document.getElementById("main-content")
+  characters.forEach((character) => {
+    const characterCard = document.createElement("div")
+    characterCard.className = "character-card"
+    characterCard.innerHTML = `
+      <img src="${character.image}">
+      <h2>${character.name}</h2>
+    `
+    characterCard.addEventListener("mouseover", () => {
+      hoverSound.play()
     })
-  }
+    characterCard.addEventListener("click", () => {
+      !modalOpen
+        ? displayCharacterDetails(character)
+        : (closeModal(), displayCharacterDetails(character))
+    })
+    mainContent.appendChild(characterCard)
+  })
+}
 
 const displayCharacterDetails = (character) => {
   const modalCard = document.createElement("div")
@@ -125,6 +129,9 @@ const displayCharacterDetails = (character) => {
   }
 
   initializePage()
+  
+
+  
 
   window.addEventListener("scroll", async () => {
     const {scrollTop, scrollHeight, clientHeight} = document.documentElement
