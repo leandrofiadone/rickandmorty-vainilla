@@ -3,11 +3,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
 
-  const detailSound = new Audio("./pop.mp3")
+  const detailSound = new Audio("./audio/pop.mp3")
   detailSound.volume = 0.5
-  const hoverSound = new Audio("./Click_Electronic_10.mp3")
+  const hoverSound = new Audio("./audio/Click_Electronic_10.mp3")
   hoverSound.volume = 0.2
-  const closeSound = new Audio("./Mouth_42.mp3")
+  const closeSound = new Audio("./audio/Mouth_42.mp3")
   closeSound.volume = 0.3
   const baseUrl = "https://rickandmortyapi.com/api/"
   let modalOpen = false
