@@ -6,6 +6,58 @@
     <title>Rick and Morty SPA</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="filters.css">
+    <!-- Font Awesome for icons (you can replace this with your own icon images) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom styles for icons */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-image: repeating-linear-gradient(225deg, hsla(207,0%,63%,0.05) 0px, hsla(207,0%,63%,0.05) 1px,transparent 1px, transparent 11px,hsla(207,0%,63%,0.05) 11px, hsla(207,0%,63%,0.05) 12px,transparent 12px, transparent 32px),repeating-linear-gradient(180deg, hsla(207,0%,63%,0.05) 0px, hsla(207,0%,63%,0.05) 1px,transparent 1px, transparent 11px,hsla(207,0%,63%,0.05) 11px, hsla(207,0%,63%,0.05) 12px,transparent 12px, transparent 32px),repeating-linear-gradient(315deg, hsla(207,0%,63%,0.05) 0px, hsla(207,0%,63%,0.05) 1px,transparent 1px, transparent 11px,hsla(207,0%,63%,0.05) 11px, hsla(207,0%,63%,0.05) 12px,transparent 12px, transparent 32px),repeating-linear-gradient(270deg, hsla(207,0%,63%,0.05) 0px, hsla(207,0%,63%,0.05) 1px,transparent 1px, transparent 11px,hsla(207,0%,63%,0.05) 11px, hsla(207,0%,63%,0.05) 12px,transparent 12px, transparent 32px),linear-gradient(270deg, rgb(17, 17, 17),rgb(66, 66, 66));
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .footer a {
+            color: #fff; /* Cambiar el color del texto a blanco */
+            font-size: 24px;
+            margin-left: 1rem;
+            margin-right: 4rem;
+            background-color: #333; /* Cambiar el color de fondo a gris oscuro */
+            border-radius: 20%; /* Hacer que el fondo sea circular */
+            padding-top: 2px;
+            padding-bottom: 4px;
+            padding-right: 9px; /* Añadir un poco de espacio para que el fondo se vea mejor */
+            padding-left: 10px; 
+            text-decoration: none; /* Eliminar el subrayado predeterminado */
+            z-index: 10;
+        }
+        .footer a:hover {
+            background-color: #555; /* Cambiar el color de fondo cuando se pasa el mouse sobre el enlace */
+        }
+        .running-text {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: marquee 18s linear infinite;
+            color:darkcyan;
+            font-size:medium;
+            font-weight: 600;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Ocultar el texto de desplazamiento en dispositivos móviles */
+        @media (max-width: 768px) {
+            .running-text {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="sticky-nav">
@@ -13,7 +65,7 @@
             <h1>Rick and Morty SPA</h1>
             <h2>para Absti SA</h2>
         </div>
-         <div class="filters">
+        <div class="filters">
             <label for="status">Status:</label>
             <select id="status">
                 <option value="">All</option>
@@ -45,10 +97,18 @@
         <!-- Content generated dynamically by JavaScript -->
     </main>
 
+    <!-- Footer -->
+    <div class="footer">
+        <!-- <div class="running-text">
+            📑 These is a Single Page App, Vainilla JavaScript 💻📚🌍... I dont know what else to write about over here. 💻📚🌍 Puedo escribir en español tambien. La pagina fue realizada en mayo del 2024 💻📚🌍
+        </div> -->
+        <!-- GitHub -->
+        <a href="https://github.com/leandrofiadone" target="_blank"><i class="fab fa-github"></i></a>
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/leandro-fiadone/" target="_blank"><i class="fab fa-linkedin"></i></a>
+    </div>
+
     <!-- Scripts -->
-
     <script src="script.js" defer></script>
-    
-
 </body>
 </html>
